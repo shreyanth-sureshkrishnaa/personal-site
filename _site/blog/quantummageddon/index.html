@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantummageddon: An Algorithm Away from Digital Anarchy</title>
+  <meta name="description" content="AI, Software and Security.">
+  <link rel="icon" type="image/png" href="/assets/images/profile_circle.png">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Shreyanth Suresh Krishnaa" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Quantummageddon: An Algorithm Away from Digital Anarchy | Shreyanth Suresh Krishnaa</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Quantummageddon: An Algorithm Away from Digital Anarchy" />
+<meta name="author" content="Shreyanth Suresh Krishnaa" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="We built the secure internet on the assumption that certain math problems were nearly impossible to solve. It turns out the math hill we chose to die on is crumbling." />
+<meta property="og:description" content="We built the secure internet on the assumption that certain math problems were nearly impossible to solve. It turns out the math hill we chose to die on is crumbling." />
+<link rel="canonical" href="http://localhost:4000/blog/quantummageddon/" />
+<meta property="og:url" content="http://localhost:4000/blog/quantummageddon/" />
+<meta property="og:site_name" content="Shreyanth Suresh Krishnaa" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-12T00:00:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Quantummageddon: An Algorithm Away from Digital Anarchy" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/blog/quantummageddon/","description":"We built the secure internet on the assumption that certain math problems were nearly impossible to solve. It turns out the math hill we chose to die on is crumbling.","headline":"Quantummageddon: An Algorithm Away from Digital Anarchy","dateModified":"2025-08-12T00:00:00+05:30","datePublished":"2025-08-12T00:00:00+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/quantummageddon/"},"author":{"@type":"Person","name":"Shreyanth Suresh Krishnaa"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        document.documentElement.className = 'dark';
+      } else if (storedTheme === 'light') {
+        document.documentElement.className = 'light';
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.className = 'dark';
+      } else {
+        document.documentElement.className = 'light';
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <nav>
+    <a href="/"
+      class="nav-home">Shreyanth</a>
+    <a href="/work/" >Work</a>
+    <a href="/projects/" >Projects</a>
+    <a href="/talks/" >Talks</a>
+    <a href="/blog/"  class="active" >Blog</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" />
+      </svg>
+    </button>
+  </nav>
+  <div class="post-header">
+  <p class="post-meta">August 12, 2025 · cryptography · quantum · cybersecurity · security</p>
+  <h1>Quantummageddon: An Algorithm Away from Digital Anarchy</h1>
+  <p class="post-subtitle">On Shor's algorithm, harvest-now-decrypt-later attacks, and the cryptographic reckoning ahead.</p>
+</div>
+
+<div class="post-content">
+  <p>We built the secure internet on the assumption that certain math problems were nearly impossible to solve. It turns out the math hill we chose to die on is crumbling.</p>
+
+<p>Imagine waking up to discover that your bank account details, your company’s confidential files, your medical history — all of it — has been decrypted like it was plaintext. With the advent of powerful quantum computers, this may not remain a nightmare for long. It could become real. A cryptographic catastrophe. A digital doomsday.</p>
+
+<p>Quantummageddon.</p>
+
+<p>The modern internet relies on encryption to function securely. When you visit a secure website, log in to your email, or send a private message, your data is protected by public key cryptographic algorithms — RSA, Diffie-Hellman, ECC. These algorithms exploit certain quirks of mathematics and have served us well for decades. They rely on problems that are <em>hard</em>: problems that would take classical computers millions of years to solve. Classical hardware simply doesn’t have the computing power.</p>
+
+<hr />
+
+<h2 id="shors-algorithm-theoretical-dynamite">Shor’s Algorithm: Theoretical Dynamite</h2>
+
+<p>In 1994, mathematician Peter Shor developed a quantum algorithm capable of factoring large numbers exponentially faster than any classical algorithm. It isn’t widely used today — the hardware isn’t there yet — but once quantum computers catch up, Shor’s algorithm could detonate the entire foundation of digital security.</p>
+
+<p>Why? Because RSA encryption rests on the hardness of factoring large numbers. A classical computer using the best known algorithms against RSA-2048 would take millions of years to break it. Shor’s algorithm allows a quantum computer to do it in hours or days.</p>
+
+<p>ECC and Diffie-Hellman offer no refuge. Shor’s algorithm demolishes those too.</p>
+
+<hr />
+
+<h2 id="how-close-are-we">How Close Are We?</h2>
+
+<p>Don’t head to a cabin in the woods just yet. There’s still a major hurdle: we haven’t built a quantum computer with enough logical qubits — stable, error-corrected quantum bits — to run Shor’s algorithm against RSA-2048. Estimates range from 5 to 15 years before that’s possible.</p>
+
+<p>But preparation has already begun. The U.S. National Institute of Standards and Technology (NIST) has warned that any data requiring protection for more than ten years should be migrated to quantum-resistant algorithms <em>now</em>.</p>
+
+<p>That framing matters. Because when quantum-powered decryption does arrive, the damage won’t announce itself politely.</p>
+
+<hr />
+
+<h2 id="harvest-now-decrypt-later">Harvest Now, Decrypt Later</h2>
+
+<p>Cybercriminals and nation-states are already stealing encrypted data today, betting they can decrypt it tomorrow with quantum hardware.</p>
+
+<p>Evil? Yes. Prepared? Also yes.</p>
+
+<p>This is the <em>harvest now, decrypt later</em> threat model — and it’s an astonishingly ruthless strategy. The breach has already happened; we just haven’t felt it yet. Encrypted secrets sitting in a cloud backup today may be readable in a decade.</p>
+
+<p>That’s what makes this threat unusual. The clock is ticking on data that already exists.</p>
+
+<hr />
+
+<h2 id="the-good-news">The Good News</h2>
+
+<p>Post-Quantum Cryptography (PQC) is real, and it’s here. In 2024, NIST finalized its first post-quantum cryptographic standards:</p>
+
+<ul>
+  <li><strong>ML-KEM</strong> (formerly CRYSTALS-Kyber) — for key encapsulation</li>
+  <li><strong>ML-DSA</strong> (formerly CRYSTALS-Dilithium) — for digital signatures</li>
+</ul>
+
+<p>The challenge isn’t the algorithms. It’s the transition. Every app, server, IoT device, router, and protocol built over the last thirty years will need an upgrade. This isn’t a patch situation. It’s an internet-wide overhaul.</p>
+
+<p>Quantum computing won’t be the end of cybersecurity. It will be the next stage of the game. The smartest defenders won’t be the ones who react after the fact — they’ll be the ones who prepare now.</p>
+
+<p>The arms race continues.</p>
+
+</div>
+
+<hr>
+<p class="post-back"><a href="/blog/">← All posts</a></p>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      const doc = document.documentElement;
+      if (doc.classList.contains('dark')) {
+        doc.classList.remove('dark');
+        doc.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        doc.classList.remove('light');
+        doc.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</body>
+
+</html>

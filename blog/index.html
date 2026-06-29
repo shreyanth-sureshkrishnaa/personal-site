@@ -1,0 +1,22 @@
+---
+layout: default
+title: Blog
+description: Writing on cybersecurity, AI, cryptography, and everything in between.
+---
+
+<h1 class="page-title">Blog</h1>
+
+{% if site.posts.size > 0 %}
+{% for post in site.posts %}
+<div class="post-row">
+  <span class="post-date">{{ post.date | date: "%b %d, %Y" }}</span>
+  <div>
+    <p class="post-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></p>
+    {% if post.subtitle %}<p class="post-excerpt">{{ post.subtitle }}</p>{% elsif post.excerpt %}<p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 160 }}</p>{% endif %}
+    {% if post.tags.size > 0 %}<p class="post-tags">{{ post.tags | join: ' · ' }}</p>{% endif %}
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<p style="color:#888; font-size:14px;">No posts yet.</p>
+{% endif %}

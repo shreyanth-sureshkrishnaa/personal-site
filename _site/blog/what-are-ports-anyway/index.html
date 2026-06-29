@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What are Ports Anyway?</title>
+  <meta name="description" content="AI, Software and Security.">
+  <link rel="icon" type="image/png" href="/assets/images/profile_circle.png">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false}
+      ]
+    });"></script>
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Shreyanth Suresh Krishnaa" />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>What are Ports Anyway? | Shreyanth Suresh Krishnaa</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="What are Ports Anyway?" />
+<meta name="author" content="Shreyanth Suresh Krishnaa" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When I first started dipping my toes into Capture the Flag challenges and inevitably running Nmap scans to break into machines, I was puzzled." />
+<meta property="og:description" content="When I first started dipping my toes into Capture the Flag challenges and inevitably running Nmap scans to break into machines, I was puzzled." />
+<link rel="canonical" href="http://localhost:4000/blog/what-are-ports-anyway/" />
+<meta property="og:url" content="http://localhost:4000/blog/what-are-ports-anyway/" />
+<meta property="og:site_name" content="Shreyanth Suresh Krishnaa" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-13T00:00:00+05:30" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="What are Ports Anyway?" />
+<script type="application/ld+json">
+{"url":"http://localhost:4000/blog/what-are-ports-anyway/","description":"When I first started dipping my toes into Capture the Flag challenges and inevitably running Nmap scans to break into machines, I was puzzled.","headline":"What are Ports Anyway?","dateModified":"2025-08-13T00:00:00+05:30","datePublished":"2025-08-13T00:00:00+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/what-are-ports-anyway/"},"author":{"@type":"Person","name":"Shreyanth Suresh Krishnaa"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <script>
+    (function () {
+      const storedTheme = localStorage.getItem('theme');
+      if (storedTheme === 'dark') {
+        document.documentElement.className = 'dark';
+      } else if (storedTheme === 'light') {
+        document.documentElement.className = 'light';
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.className = 'dark';
+      } else {
+        document.documentElement.className = 'light';
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <nav>
+    <a href="/"
+      class="nav-home">Shreyanth</a>
+    <a href="/work/" >Work</a>
+    <a href="/projects/" >Projects</a>
+    <a href="/talks/" >Talks</a>
+    <a href="/blog/"  class="active" >Blog</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" />
+      </svg>
+    </button>
+  </nav>
+  <div class="post-header">
+  <p class="post-meta">August 13, 2025 · networking · cybersecurity · ports · information security</p>
+  <h1>What are Ports Anyway?</h1>
+  <p class="post-subtitle">From CTF curiosity to a comprehensive understanding of how ports work — and why they matter in cybersecurity.</p>
+</div>
+
+<div class="post-content">
+  <p>When I first started dipping my toes into Capture the Flag challenges and inevitably running Nmap scans to break into machines, I was puzzled.</p>
+
+<p>What are these strange digital doorways called ports? Why do they have the numbers they do? And seriously, why were there so many of them? After some research, my questions were answered and my curiosity sated. But here’s the thing: learning has this quirky side effect. The more you start to uncover and understand, the more you realize how much you don’t know. It’s like pulling on a thread, only to find it’s connected to a massive spool of yarn you’ve barely begun to see.</p>
+
+<p>And when it comes to ports, that spool is massive.</p>
+
+<p>Whenever you do something as simple as send an email, stream a video, or log into a secure server, your data isn’t flung blindly into cyberspace like a toddler throwing a paper airplane. It’s carefully directed to the right application via the right port — much like a letter delivered to the correct apartment in a massive building complex.</p>
+
+<p>A port is a fundamental concept in networking and cybersecurity. It serves as a communication endpoint for data transfer between computer programs and the internet. And yes, it needs to be secured.</p>
+
+<p>This guide will provide a simple yet comprehensive understanding of what ports are, how they work, and their significance in cybersecurity.</p>
+
+<hr />
+
+<h2 id="what-are-ports">What Are Ports?</h2>
+
+<p>Imagine a port as a door in a building. Just as different doors lead to different rooms, ports are numerical identifiers that allow different applications and services on a computer to send and receive data.</p>
+
+<p>Each port is associated with a specific type of service or protocol — email, web browsing, voice chat, file sharing. Data sent over the internet is divided into packets, and each packet carries a source and destination port number to ensure it reaches the correct service or application. Kind of like the sender and recipient addresses on an email.</p>
+
+<hr />
+
+<h2 id="types-of-ports">Types of Ports</h2>
+
+<p>There are two main types of ports:</p>
+
+<p><strong>Physical ports</strong> — Hardware connections on devices like computers, routers, hubs, and switches that allow cables to be plugged in. Think USB, Ethernet, or HDMI. Each requires a physical object: USB sticks, Ethernet cables, HDMI cables.</p>
+
+<p><strong>Logical ports</strong> — These aren’t physical things. They’re not even physical units inside your CPU. They are just numbers — software-level identifiers in networking that manage the flow of data between programs. They are part of the internet protocol suite and are indispensable for any communication over a network.</p>
+
+<hr />
+
+<h2 id="port-numbers">Port Numbers</h2>
+
+<p>Ports are identified by 16-bit numbers, ranging from 0 to 65,535.</p>
+
+<p>Why that number? The answer is in the first sentence. 2¹⁶ = 65,536. When you count from 0, you get a total of 65,536.</p>
+
+<p><strong>Well-known ports</strong> (the lower numbers) are reserved for standard services — HTTP (port 80) for web traffic, SMTP (port 25) for email.</p>
+
+<p><strong>Ephemeral or dynamic ports</strong> (the higher numbers) are used for temporary connections like Peer-to-Peer (P2P) file sharing, Voice-Over-IP (VoIP), and passive FTP data connections.</p>
+
+<p>One more fun fact: Port 0 is a valid number in the TCP/UDP 16-bit port range but doesn’t work the same way as the others. It’s reserved and not used for normal network communication — it serves as a placeholder. Asking the operating system to bind to port 0 tells it to pick an available ephemeral port automatically. Most systems drop traffic to port 0, but it does show up in testing, debugging, and firewall evasion attempts.</p>
+
+<hr />
+
+<h2 id="port-functions">Port Functions</h2>
+
+<p>Each port number is associated with a specific protocol or service. But two main protocols actually use ports: <strong>TCP</strong> (Transmission Control Protocol) and <strong>UDP</strong> (User Datagram Protocol).</p>
+
+<p>Note: TCP and UDP don’t have fixed ports — both use port numbers in the 0–65,535 range, assigned to different services.</p>
+
+<p><strong>TCP</strong> is like sending a package with a tracker and a required signature. It establishes a connection between two devices, ensures every piece of data arrives, checks for errors, and re-sends anything that goes missing. TCP is ideal when accuracy matters, like browsing websites.</p>
+
+<p><strong>UDP</strong> is more like shouting your message across the room with noise-cancelling headphones on. You send the data without waiting for confirmation that it arrived. This makes it faster and lighter but less reliable — packets can arrive out of order or not at all. UDP is used for real-time applications like online gaming, video calls, or live streaming, where speed matters more than perfection.</p>
+
+<p>A few examples:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">TCP 80</code> → HTTP (web traffic)</li>
+  <li><code class="language-plaintext highlighter-rouge">TCP 443</code> → HTTPS (secure web traffic)</li>
+  <li><code class="language-plaintext highlighter-rouge">UDP 53</code> → DNS queries</li>
+  <li><code class="language-plaintext highlighter-rouge">UDP 123</code> → NTP (time synchronization)</li>
+</ul>
+
+<p>Together, TCP and UDP keep the digital world organized, efficient, and running smoothly.</p>
+
+<hr />
+
+<h2 id="ports-in-cybersecurity">Ports in Cybersecurity</h2>
+
+<p>Ports are major players in cybersecurity. If left unsecured, attackers can exploit open ports to gain unauthorized access. Port scanning is a common method used to identify which ports are open on a network, helping attackers pinpoint vulnerabilities. Now you know why port scanning is done first in a CTF challenge — it helps you put your foot in the door.</p>
+
+<p>To defend against such threats, firewalls control network traffic, allowing or blocking specific ports based on predefined rules. Port forwarding — often used in home networks to make internal services accessible from the outside — can be handy but risky if misconfigured.</p>
+
+<hr />
+
+<h2 id="port-security">Port Security</h2>
+
+<p>To secure ports and reduce the risk of exploitation, follow these best practices:</p>
+
+<p><strong>Minimize your attack surface.</strong> Close all unnecessary ports so that only those required for your applications remain open.</p>
+
+<p><strong>Use a firewall</strong> to monitor and control both inbound and outbound traffic, blocking unauthorized access attempts.</p>
+
+<p><strong>Keep all software updated</strong> to patch vulnerabilities that attackers could exploit through open ports.</p>
+
+<p><strong>Scan your network regularly</strong> with tools like Nmap to identify open ports and ensure they’re only accessible when necessary.</p>
+
+<p><strong>Implement access controls</strong> based on the principle of least privilege, allowing only trusted users and devices to connect to critical services.</p>
+
+<hr />
+
+<p>So next time you run an Nmap scan or configure a firewall, appreciate that you’re navigating the underappreciated underground tunnels of the internet.</p>
+
+</div>
+
+<hr>
+<p class="post-back"><a href="/blog/">← All posts</a></p>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      const doc = document.documentElement;
+      if (doc.classList.contains('dark')) {
+        doc.classList.remove('dark');
+        doc.classList.add('light');
+        localStorage.setItem('theme', 'light');
+      } else {
+        doc.classList.remove('light');
+        doc.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  </script>
+</body>
+
+</html>

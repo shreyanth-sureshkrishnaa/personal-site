@@ -1,0 +1,29 @@
+title: Shreyanth Suresh Krishnaa
+description: AI, Software and Security.
+url: "https://shreyanth.com"
+baseurl: ""
+author:
+  name: Shreyanth Suresh Krishnaa
+  email: shreyanthsureshkrishnaa.work@gmail.com
+  github: shreyanth-sureshkrishnaa
+  linkedin: shreyanthsureshkrishnaa
+
+permalink: /blog/:slug/
+
+timezone: Asia/Kolkata
+
+markdown: kramdown
+highlighter: rouge
+
+kramdown:
+  math_engine: null
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
