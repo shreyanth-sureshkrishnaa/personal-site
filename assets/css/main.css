@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
 :root {
   --blue: #2563eb;
   --bg-color: #ffffff;
@@ -8,7 +10,8 @@
   --border-divider: #e5e7eb;
   --code-bg: #f8fafc;
   --code-border: #e2e8f0;
-  --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-sans: 'JetBrains Mono', ui-monospace, monospace;
 }
 
 html.dark {
@@ -41,17 +44,14 @@ html.no-transition *::after {
   transition: none !important;
 }
 
-*,
-*::before,
-*::after {
-  transition:
-    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    fill 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+/* Suppress all CSS color transitions while the ripple overlay is active */
+html.ripple-active *,
+html.ripple-active *::before,
+html.ripple-active *::after {
+  transition: none !important;
 }
 
-/* Preserve intentional fast micro-transitions */
+/* Fast micro-transitions for interactive elements */
 a,
 nav a,
 .theme-toggle,
@@ -63,19 +63,42 @@ nav a,
     color 0.15s ease,
     opacity 0.15s ease,
     border-color 0.15s ease,
-    text-decoration-color 0.15s ease,
-    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration-color 0.15s ease;
+}
+
+/* THEME RIPPLE OVERLAY */
+.theme-ripple {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  will-change: clip-path;
+  /* drop-shadow respects clip-path — creates a glow at the ripple edge */
+  filter: drop-shadow(0 0 28px var(--ripple-glow, rgba(99, 120, 255, 0.45)));
+}
+
+/* Subtle page breathe on toggle */
+@keyframes page-breathe {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(0.9988); }
+  100% { transform: scale(1); }
+}
+
+body.theme-transitioning {
+  animation: page-breathe 0.65s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.625;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.7;
   color: var(--text-primary);
   background: var(--bg-color);
   max-width: 680px;
   margin: 0 auto;
   padding: 50px 24px 100px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
