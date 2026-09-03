@@ -205,13 +205,11 @@ nav a.active::after {
 
 .hero-links a {
   color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-divider);
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .hero-links a:hover {
   color: var(--blue);
-  border-bottom-color: var(--blue);
   opacity: 1;
 }
 
