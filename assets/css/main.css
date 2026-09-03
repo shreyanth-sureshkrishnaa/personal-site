@@ -9,8 +9,8 @@
   --border-divider: #e5e7eb;
   --code-bg: #f8fafc;
   --code-border: #e2e8f0;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-sans: 'JetBrains Mono', ui-monospace, monospace;
+  --font-mono: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-sans: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
 html.dark {
@@ -29,9 +29,9 @@ p + p { margin-top: 1.1em; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Universal font inheritance — set on html so everything cascades down */
+/* Universal font — system monospace stack, zero network requests */
 html {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
   transition:
     background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
