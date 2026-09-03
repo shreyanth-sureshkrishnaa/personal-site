@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root {
   --blue: #2563eb;
@@ -30,11 +29,17 @@ p + p { margin-top: 1.1em; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Smooth global theme transition */
+/* Universal font inheritance — set on html so everything cascades down */
 html {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   transition:
     background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Force all elements (incl. buttons/inputs that don't auto-inherit) */
+* {
+  font-family: inherit;
 }
 
 /* Suppress all transitions on first load to prevent flash */
@@ -89,7 +94,6 @@ body.theme-transitioning {
 }
 
 body {
-  font-family: var(--font-sans);
   font-size: 14px;
   line-height: 1.7;
   color: var(--text-primary);
