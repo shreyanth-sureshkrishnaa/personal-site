@@ -74,8 +74,11 @@ nav a,
 /* THEME RIPPLE OVERLAY */
 .theme-ripple {
   position: fixed;
-  inset: 0;
-  z-index: 99999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
   pointer-events: none;
   will-change: clip-path;
   /* drop-shadow respects clip-path — creates a glow at the ripple edge */
@@ -563,109 +566,150 @@ p.hint {
   margin-bottom: 16px;
 }
 
-/* TABLET & LARGE PHONE */
-@media (max-width: 640px) {
+/* FLUID MOBILE SCALING — everything shrinks smoothly with screen width */
+@media (max-width: 680px) {
   body {
-    padding: 24px 14px 60px;
-    font-size: 12.5px;
-    line-height: 1.6;
+    padding: clamp(16px, 4vw, 24px) clamp(10px, 3vw, 16px) clamp(40px, 8vw, 60px);
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    line-height: 1.55;
   }
 
   nav {
     flex-wrap: wrap;
-    gap: 8px 12px;
-    margin-bottom: 28px;
-    font-size: 12px;
+    gap: clamp(6px, 1.8vw, 8px) clamp(8px, 2.2vw, 12px);
+    margin-bottom: clamp(18px, 4.5vw, 26px);
+    font-size: clamp(11px, 2.8vw, 12.5px);
   }
 
   .theme-toggle {
     margin-left: auto;
-    padding: 4px;
+    padding: 3px;
   }
 
   .theme-toggle svg {
-    width: 12px;
-    height: 12px;
+    width: clamp(11px, 2.8vw, 13px);
+    height: clamp(11px, 2.8vw, 13px);
   }
 
   hr {
-    margin: 22px 0;
+    margin: clamp(16px, 4vw, 22px) 0;
   }
 
   .hero-name {
-    font-size: 20px;
+    font-size: clamp(17px, 4.8vw, 21px);
     letter-spacing: -0.01em;
   }
 
+  .hero-name::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(6px, 1.5vw, 8px);
+  }
+
   .hero-sub {
-    font-size: 12.5px;
-    margin-bottom: 12px;
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    margin-bottom: clamp(8px, 2vw, 12px);
   }
 
   .hero-links {
-    font-size: 12px;
+    font-size: clamp(10.5px, 2.7vw, 12px);
   }
 
   h1.page-title {
-    font-size: 18px;
+    font-size: clamp(16px, 4.5vw, 19px);
+  }
+
+  h1.page-title::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(16px, 4vw, 22px);
   }
 
   h2.section-title {
-    font-size: 10px;
-    margin: 28px 0 12px;
+    font-size: clamp(9px, 2.2vw, 10.5px);
+    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 12px);
   }
 
   .entry {
     grid-template-columns: 1fr;
-    gap: 3px;
-    padding: 14px 0;
-    font-size: 12.5px;
+    gap: 2px;
+    padding: clamp(10px, 2.5vw, 13px) 0;
+    font-size: clamp(11px, 2.8vw, 12.5px);
   }
 
   .entry-time {
-    font-size: 11px;
+    font-size: clamp(10px, 2.5vw, 11px);
   }
 
   .entry-role {
-    font-size: 13px;
+    font-size: clamp(11.5px, 3vw, 13px);
   }
 
   .entry-org {
-    font-size: 12px;
+    font-size: clamp(10.5px, 2.7vw, 12px);
+  }
+
+  .entry-desc {
+    font-size: clamp(11px, 2.8vw, 12.5px);
+  }
+
+  .project-row {
+    padding: clamp(10px, 2.5vw, 13px) 0;
   }
 
   .project-name {
-    font-size: 13px;
+    font-size: clamp(11.5px, 3vw, 13px);
+  }
+
+  .project-tag {
+    font-size: clamp(9.5px, 2.4vw, 10.5px);
   }
 
   .project-desc {
-    font-size: 12px;
+    font-size: clamp(10.5px, 2.7vw, 12px);
   }
 
   .post-row {
     grid-template-columns: 1fr;
     gap: 2px;
-    padding: 12px 0;
-    font-size: 12.5px;
+    padding: clamp(10px, 2.5vw, 12px) 0;
+    font-size: clamp(11px, 2.8vw, 12.5px);
   }
 
   .post-date {
-    font-size: 11px;
+    font-size: clamp(10px, 2.5vw, 11px);
   }
 
   .post-header h1 {
-    font-size: 18px;
+    font-size: clamp(16px, 4.5vw, 19px);
+  }
+
+  .post-header h1::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(8px, 2vw, 10px);
+  }
+
+  .post-subtitle {
+    font-size: clamp(11.5px, 2.9vw, 13px);
   }
 
   .post-content {
-    font-size: 13px;
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    line-height: 1.55;
+    margin-top: clamp(20px, 5vw, 26px);
   }
 
   .post-content h2 {
-    font-size: 15px;
+    font-size: clamp(13.5px, 3.5vw, 15px);
+    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 10px);
   }
 
   .post-content h3 {
-    font-size: 13px;
+    font-size: clamp(12px, 3vw, 13.5px);
+    margin: clamp(16px, 4vw, 20px) 0 clamp(6px, 1.5vw, 8px);
   }
 }

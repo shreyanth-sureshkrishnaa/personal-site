@@ -87,7 +87,7 @@
       const maxR = Math.hypot(
         Math.max(ox, window.innerWidth  - ox),
         Math.max(oy, window.innerHeight - oy)
-      ) + 32;
+      ) + 60;
 
       /* Build the ripple overlay */
       const ripple = document.createElement('div');
@@ -98,7 +98,7 @@
         transition:  'clip-path 0.68s cubic-bezier(0.4, 0, 0.2, 1)',
         '--ripple-glow': glowColor,
       });
-      document.body.appendChild(ripple);
+      document.documentElement.appendChild(ripple);
 
       /* Suppress competing CSS transitions under the overlay */
       doc.classList.add('ripple-active');
