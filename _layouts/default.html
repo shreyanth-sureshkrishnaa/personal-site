@@ -3,6 +3,16 @@
 
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title == "Home" or page.layout == "home" %}Shreyanth Suresh Krishnaa{% else %}{{ page.title }}{%
     endif %}</title>
@@ -21,23 +31,6 @@
     });"></script>
   {% feed_meta %}
   {% seo %}
-  <script>
-    (function () {
-      var doc = document.documentElement;
-      doc.classList.add('no-transition');
-      try {
-        var t = localStorage.getItem('theme');
-        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          doc.setAttribute('data-theme', 'dark');
-        }
-      } catch (e) {}
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          doc.classList.remove('no-transition');
-        });
-      });
-    })();
-  </script>
 </head>
 
 <body>
@@ -66,10 +59,11 @@
         var html = document.documentElement;
         var isDark = html.getAttribute('data-theme') === 'dark';
 
-        /* Trigger smooth icon spin */
+        /* Smooth icon spin */
         btn.classList.remove('spinning');
-        void btn.offsetWidth;
-        btn.classList.add('spinning');
+        requestAnimationFrame(function () {
+          btn.classList.add('spinning');
+        });
         btn.addEventListener('animationend', function handler() {
           btn.classList.remove('spinning');
           btn.removeEventListener('animationend', handler);
