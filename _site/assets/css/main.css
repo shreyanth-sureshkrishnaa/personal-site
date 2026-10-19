@@ -1,3 +1,4 @@
+
 :root {
   --blue: #2563eb;
   --bg-color: #ffffff;
@@ -8,10 +9,11 @@
   --border-divider: #e5e7eb;
   --code-bg: #f8fafc;
   --code-border: #e2e8f0;
-  --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  --font-mono: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-sans: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
-html.dark {
+[data-theme="dark"] {
   --blue: #3b82f6;
   --bg-color: #0d0d10;
   --text-primary: #f3f4f6;
@@ -27,22 +29,60 @@ p + p { margin-top: 1.1em; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Universal font — system monospace stack, zero network requests */
+html {
+  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+  background-color: var(--bg-color);
+  color-scheme: light;
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Suppress all transitions on first load to prevent flash */
+html.no-transition *,
+html.no-transition *::before,
+html.no-transition *::after {
+  transition: none !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  transition:
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.625;
+  font-size: 14px;
+  line-height: 1.7;
   color: var(--text-primary);
-  background: var(--bg-color);
+  background-color: var(--bg-color);
   max-width: 680px;
   margin: 0 auto;
   padding: 50px 24px 100px;
-  transition: background 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
   color: var(--blue);
   text-decoration: none;
-  transition: color 0.15s ease, opacity 0.15s ease;
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease,
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 a:hover {
@@ -55,6 +95,19 @@ hr {
   margin: 32px 0;
 }
 
+/* Fast micro-transitions for links */
+.project-name a,
+.post-title a,
+.hero-links a,
+.post-content a {
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease,
+    border-color 0.15s ease,
+    text-decoration-color 0.15s ease,
+    background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* NAV */
 nav {
   display: flex;
@@ -62,32 +115,6 @@ nav {
   align-items: center;
   margin-bottom: 48px;
   font-size: 14px;
-}
-
-.theme-toggle {
-  margin-left: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.15s ease, transform 0.1s ease;
-  border-radius: 6px;
-}
-
-.theme-toggle:hover {
-  color: var(--text-primary);
-}
-
-.theme-toggle:active {
-  transform: scale(0.95);
-}
-
-.theme-toggle svg {
-  display: block;
 }
 
 nav .nav-home {
@@ -121,6 +148,46 @@ nav a.active::after {
   border-radius: 1px;
 }
 
+/* THEME TOGGLE */
+.theme-toggle {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition:
+    color 0.15s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.theme-toggle:hover {
+  color: var(--text-primary);
+}
+
+.theme-toggle:active {
+  transform: scale(0.9);
+}
+
+.theme-toggle svg {
+  display: block;
+}
+
+.theme-toggle.spinning svg {
+  animation: theme-spin 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes theme-spin {
+  0%   { transform: rotate(0deg)   scale(1); }
+  40%  { transform: rotate(200deg) scale(0.75); }
+  70%  { transform: rotate(340deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
 /* HERO */
 .hero-name {
   font-size: 28px;
@@ -152,13 +219,11 @@ nav a.active::after {
 
 .hero-links a {
   color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-divider);
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .hero-links a:hover {
   color: var(--blue);
-  border-bottom-color: var(--blue);
   opacity: 1;
 }
 
@@ -485,24 +550,150 @@ p.hint {
   margin-bottom: 16px;
 }
 
-@media (max-width: 500px) {
+/* FLUID MOBILE SCALING — everything shrinks smoothly with screen width */
+@media (max-width: 680px) {
   body {
-    padding: 32px 16px 80px;
+    padding: clamp(16px, 4vw, 24px) clamp(10px, 3vw, 16px) clamp(40px, 8vw, 60px);
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    line-height: 1.55;
   }
+
   nav {
-    margin-bottom: 36px;
+    flex-wrap: wrap;
+    gap: clamp(6px, 1.8vw, 8px) clamp(8px, 2.2vw, 12px);
+    margin-bottom: clamp(18px, 4.5vw, 26px);
+    font-size: clamp(11px, 2.8vw, 12.5px);
   }
+
+  .theme-toggle {
+    margin-left: auto;
+    padding: 3px;
+  }
+
+  .theme-toggle svg {
+    width: clamp(11px, 2.8vw, 13px);
+    height: clamp(11px, 2.8vw, 13px);
+  }
+
+  hr {
+    margin: clamp(16px, 4vw, 22px) 0;
+  }
+
+  .hero-name {
+    font-size: clamp(17px, 4.8vw, 21px);
+    letter-spacing: -0.01em;
+  }
+
+  .hero-name::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(6px, 1.5vw, 8px);
+  }
+
+  .hero-sub {
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    margin-bottom: clamp(8px, 2vw, 12px);
+  }
+
+  .hero-links {
+    font-size: clamp(10.5px, 2.7vw, 12px);
+  }
+
+  h1.page-title {
+    font-size: clamp(16px, 4.5vw, 19px);
+  }
+
+  h1.page-title::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(16px, 4vw, 22px);
+  }
+
+  h2.section-title {
+    font-size: clamp(9px, 2.2vw, 10.5px);
+    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 12px);
+  }
+
   .entry {
     grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 16px 0;
+    gap: 2px;
+    padding: clamp(10px, 2.5vw, 13px) 0;
+    font-size: clamp(11px, 2.8vw, 12.5px);
   }
+
   .entry-time {
-    font-size: 12px;
+    font-size: clamp(10px, 2.5vw, 11px);
   }
+
+  .entry-role {
+    font-size: clamp(11.5px, 3vw, 13px);
+  }
+
+  .entry-org {
+    font-size: clamp(10.5px, 2.7vw, 12px);
+  }
+
+  .entry-desc {
+    font-size: clamp(11px, 2.8vw, 12.5px);
+  }
+
+  .project-row {
+    padding: clamp(10px, 2.5vw, 13px) 0;
+  }
+
+  .project-name {
+    font-size: clamp(11.5px, 3vw, 13px);
+  }
+
+  .project-tag {
+    font-size: clamp(9.5px, 2.4vw, 10.5px);
+  }
+
+  .project-desc {
+    font-size: clamp(10.5px, 2.7vw, 12px);
+  }
+
   .post-row {
     grid-template-columns: 1fr;
     gap: 2px;
-    padding: 14px 0;
+    padding: clamp(10px, 2.5vw, 12px) 0;
+    font-size: clamp(11px, 2.8vw, 12.5px);
+  }
+
+  .post-date {
+    font-size: clamp(10px, 2.5vw, 11px);
+  }
+
+  .post-header h1 {
+    font-size: clamp(16px, 4.5vw, 19px);
+  }
+
+  .post-header h1::after {
+    width: clamp(20px, 5vw, 28px);
+    height: 2px;
+    margin-top: clamp(8px, 2vw, 10px);
+    margin-bottom: clamp(8px, 2vw, 10px);
+  }
+
+  .post-subtitle {
+    font-size: clamp(11.5px, 2.9vw, 13px);
+  }
+
+  .post-content {
+    font-size: clamp(11px, 2.8vw, 12.5px);
+    line-height: 1.55;
+    margin-top: clamp(20px, 5vw, 26px);
+  }
+
+  .post-content h2 {
+    font-size: clamp(13.5px, 3.5vw, 15px);
+    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 10px);
+  }
+
+  .post-content h3 {
+    font-size: clamp(12px, 3vw, 13.5px);
+    margin: clamp(16px, 4vw, 20px) 0 clamp(6px, 1.5vw, 8px);
   }
 }
