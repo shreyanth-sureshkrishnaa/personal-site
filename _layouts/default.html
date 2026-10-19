@@ -3,22 +3,28 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff" id="meta-theme-color">
   <script>
     (function () {
       try {
         var t = localStorage.getItem('theme');
-        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        var isDark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (isDark) {
           document.documentElement.setAttribute('data-theme', 'dark');
+          var meta = document.getElementById('meta-theme-color');
+          if (meta) meta.setAttribute('content', '#0d0d10');
         }
       } catch (e) {}
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title == "Home" or page.layout == "home" %}Shreyanth Suresh Krishnaa{% else %}{{ page.title }}{%
-    endif %}</title>
+  <title>{% if page.title == "Home" or page.layout == "home" %}Shreyanth Suresh Krishnaa{% else %}{{ page.title }}{% endif %}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
-  <link rel="icon" type="image/png" href="{{ '/assets/images/profile_circle.png' | relative_url }}">
+  <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/images/profile_circle.png' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  {% if page.math or page.katex or content contains '$$' or content contains '\(' %}
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {
@@ -29,21 +35,19 @@
         {left: '\\(', right: '\\)', display: false}
       ]
     });"></script>
+  {% endif %}
   {% feed_meta %}
   {% seo %}
 </head>
 
 <body>
   <nav>
-    <a href="{{ '/' | relative_url }}"
-      class="nav-home{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Shreyanth</a>
-    <a href="{{ '/work/' | relative_url }}" {% if page.url contains '/work/' %} class="active" {% endif %}>Work</a>
-    <a href="{{ '/projects/' | relative_url }}" {% if page.url contains '/projects/' %} class="active" {% endif
-      %}>Projects</a>
-    <a href="{{ '/talks/' | relative_url }}" {% if page.url contains '/talks/' %} class="active" {% endif %}>Talks</a>
-    <a href="{{ '/blog/' | relative_url }}" {% if page.url contains '/blog/' or page.layout=='post' %} class="active" {%
-      endif %}>Blog</a>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+    <a href="{{ '/' | relative_url }}" class="nav-home{% if page.url == '/' or page.url == '/index.html' %} active{% endif %}">Shreyanth</a>
+    <a href="{{ '/work/' | relative_url }}"{% if page.url contains '/work/' %} class="active"{% endif %}>Work</a>
+    <a href="{{ '/projects/' | relative_url }}"{% if page.url contains '/projects/' %} class="active"{% endif %}>Projects</a>
+    <a href="{{ '/talks/' | relative_url }}"{% if page.url contains '/talks/' %} class="active"{% endif %}>Talks</a>
+    <a href="{{ '/blog/' | relative_url }}"{% if page.url contains '/blog/' or page.layout == 'post' %} class="active"{% endif %}>Blog</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
       <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none">
         <circle cx="12" cy="12" r="10" />
         <path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor" />
@@ -54,29 +58,44 @@
   <script>
     (function () {
       var btn = document.getElementById('theme-toggle');
+      var metaTheme = document.getElementById('meta-theme-color');
       if (!btn) return;
-      btn.addEventListener('click', function () {
-        var html = document.documentElement;
-        var isDark = html.getAttribute('data-theme') === 'dark';
 
-        /* Smooth icon spin */
-        btn.classList.remove('spinning');
-        requestAnimationFrame(function () {
-          btn.classList.add('spinning');
-        });
-        btn.addEventListener('animationend', function handler() {
-          btn.classList.remove('spinning');
-          btn.removeEventListener('animationend', handler);
-        }, { once: true });
-
-        if (isDark) {
-          html.removeAttribute('data-theme');
-          try { localStorage.setItem('theme', 'light'); } catch (e) {}
+      function updateTheme(newTheme) {
+        if (newTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          if (metaTheme) metaTheme.setAttribute('content', '#0d0d10');
         } else {
-          html.setAttribute('data-theme', 'dark');
-          try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+          document.documentElement.removeAttribute('data-theme');
+          if (metaTheme) metaTheme.setAttribute('content', '#ffffff');
+        }
+        try { localStorage.setItem('theme', newTheme); } catch (e) {}
+      }
+
+      btn.addEventListener('click', function () {
+        var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        var nextTheme = isDark ? 'light' : 'dark';
+
+        if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.startViewTransition(function () {
+            updateTheme(nextTheme);
+          });
+        } else {
+          document.documentElement.classList.add('theme-transitioning');
+          updateTheme(nextTheme);
+          window.setTimeout(function () {
+            document.documentElement.classList.remove('theme-transitioning');
+          }, 260);
         }
       });
+
+      try {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+          if (!localStorage.getItem('theme')) {
+            updateTheme(e.matches ? 'dark' : 'light');
+          }
+        });
+      } catch (e) {}
     })();
   </script>
 </body>

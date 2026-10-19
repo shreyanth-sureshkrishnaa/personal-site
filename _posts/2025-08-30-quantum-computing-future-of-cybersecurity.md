@@ -4,6 +4,7 @@ title: "Quantum Computing and the Future of Cybersecurity"
 subtitle: "How quantum computers work, why they threaten modern encryption, and what we're doing about it."
 date: 2025-08-30
 tags: [quantum computing, cybersecurity, cryptography, security]
+math: true
 ---
 
 Imagine a world where nothing is secret anymore.

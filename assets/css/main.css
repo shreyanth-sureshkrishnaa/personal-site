@@ -1,4 +1,3 @@
-
 :root {
   --blue: #2563eb;
   --bg-color: #ffffff;
@@ -10,7 +9,7 @@
   --code-bg: #f8fafc;
   --code-border: #e2e8f0;
   --font-mono: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
-  --font-sans: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+  --content-width: 680px;
 }
 
 [data-theme="dark"] {
@@ -25,25 +24,21 @@
   --code-border: #1f2937;
 }
 
-p + p { margin-top: 1.1em; }
-
+/* Base Reset & Universal Box Sizing */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: inherit;
 }
 
-/* Universal font — system monospace stack, zero network requests */
 html {
-  font-family: ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+  font-family: var(--font-mono);
   background-color: var(--bg-color);
   color-scheme: light;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Only transition background — transitioning color re-rasterizes text glyphs on mobile WebKit */
-  transition: background-color 0.3s ease;
+  scroll-behavior: smooth;
 }
 
 [data-theme="dark"] {
@@ -51,20 +46,49 @@ html {
 }
 
 body {
+  font-family: inherit;
   font-size: 14px;
   line-height: 1.7;
   color: var(--text-primary);
   background-color: var(--bg-color);
-  max-width: 680px;
+  max-width: var(--content-width);
   margin: 0 auto;
   padding: 50px 24px 100px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  /* Only transition background — never color, it causes glyph flicker on mobile */
-  transition: background-color 0.3s ease;
 }
 
+/* Theme Transition System:
+   Zero transitions on initial load / navigation to prevent FOUT (flash of unstyled theme).
+   View Transitions API for hardware-composited, zero-flicker cross-fade in modern browsers;
+   Scoped .theme-transitioning class fallback with simultaneous color + bg-color synchronization. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+  html.theme-transitioning,
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
+}
+
+/* Global Interactive Elements */
 a {
   color: var(--blue);
   text-decoration: none;
@@ -72,34 +96,27 @@ a {
 }
 
 a:hover {
-  opacity: 0.85;
+  opacity: 0.82;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+p + p {
+  margin-top: 1.1em;
 }
 
 hr {
   border: none;
   border-top: 1px solid var(--border-divider);
   margin: 32px 0;
-  transition: border-color 0.25s ease;
 }
 
-/* Containers: only transition background + border, never text color */
-.entry,
-.project-row,
-.post-row,
-.post-content pre,
-.post-content code {
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Fast micro-transitions for links — opacity only, no color transition on mobile */
-.project-name a,
-.post-title a,
-.hero-links a,
-.post-content a {
-  transition: opacity 0.15s ease, text-decoration-color 0.15s ease;
-}
-
-/* NAV */
+/* Navigation */
 nav {
   display: flex;
   gap: 20px;
@@ -116,14 +133,16 @@ nav .nav-home {
 
 nav a {
   color: var(--text-secondary);
+  transition: color 0.15s ease;
 }
 
-nav a:hover, nav a.active {
+nav a:hover,
+nav a.active {
   color: var(--text-primary);
 }
 
 nav a.active {
-  font-weight: 550;
+  font-weight: 600;
   position: relative;
 }
 
@@ -138,19 +157,20 @@ nav a.active::after {
   border-radius: 1px;
 }
 
-/* THEME TOGGLE */
+/* Theme Toggle Button */
 .theme-toggle {
   margin-left: auto;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.2s ease, transform 0.15s ease;
+  line-height: 0;
 }
 
 .theme-toggle:hover {
@@ -163,25 +183,20 @@ nav a.active::after {
 
 .theme-toggle svg {
   display: block;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.theme-toggle.spinning svg {
-  animation: theme-spin 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+[data-theme="dark"] .theme-toggle svg {
+  transform: rotate(180deg);
 }
 
-@keyframes theme-spin {
-  0%   { transform: rotate(0deg)   scale(1); }
-  40%  { transform: rotate(200deg) scale(0.75); }
-  70%  { transform: rotate(340deg) scale(1.15); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-
-/* HERO */
+/* Hero Section */
 .hero-name {
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 6px;
   letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .hero-name::after {
@@ -203,6 +218,7 @@ nav a.active::after {
 
 .hero-links {
   font-size: 14px;
+  color: var(--text-muted);
 }
 
 .hero-links a {
@@ -214,12 +230,13 @@ nav a.active::after {
   opacity: 1;
 }
 
-/* PAGE TITLE */
+/* Page Titles & Headings */
 h1.page-title {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 0;
   letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 h1.page-title::after {
@@ -233,7 +250,6 @@ h1.page-title::after {
   border-radius: 1.5px;
 }
 
-/* SECTION HEADINGS */
 h2.section-title {
   font-size: 12px;
   font-weight: 600;
@@ -243,7 +259,7 @@ h2.section-title {
   margin: 40px 0 16px;
 }
 
-/* TIMELINE / HISTORY */
+/* Timeline / Work Entries */
 .entry {
   display: grid;
   grid-template-columns: 120px 1fr;
@@ -259,7 +275,6 @@ h2.section-title {
 
 .entry-time {
   color: var(--text-muted);
-  font-family: var(--font-mono);
   font-size: 12.5px;
   padding-top: 2px;
 }
@@ -289,6 +304,11 @@ h2.section-title {
   line-height: 1.6;
 }
 
+.entry-link {
+  margin-top: 8px;
+  font-size: 13.5px;
+}
+
 .entry-bullets {
   list-style: none;
   padding: 0;
@@ -308,7 +328,7 @@ h2.section-title {
   color: var(--text-muted);
 }
 
-/* PROJECTS LIST */
+/* Projects List */
 .project-row {
   padding: 16px 0;
   border-top: 1px solid var(--border-color);
@@ -340,7 +360,6 @@ h2.section-title {
 }
 
 .project-tag {
-  font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-muted);
   white-space: nowrap;
@@ -353,13 +372,7 @@ h2.section-title {
   line-height: 1.55;
 }
 
-/* POST BACK LINK */
-.post-back {
-  font-size: 14px;
-  margin-top: 24px;
-}
-
-/* BLOG LIST */
+/* Blog List */
 .post-row {
   display: grid;
   grid-template-columns: 100px 1fr;
@@ -375,7 +388,6 @@ h2.section-title {
 
 .post-date {
   color: var(--text-muted);
-  font-family: var(--font-mono);
   font-size: 12.5px;
   padding-top: 2px;
 }
@@ -397,15 +409,18 @@ h2.section-title {
 }
 
 .post-tags {
-  font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 6px;
 }
 
-/* BLOG POST */
+/* Post Detail */
+.post-back {
+  font-size: 14px;
+  margin-top: 24px;
+}
+
 .post-meta {
-  font-family: var(--font-mono);
   font-size: 12.5px;
   color: var(--text-muted);
   margin-bottom: 12px;
@@ -417,6 +432,7 @@ h2.section-title {
   line-height: 1.25;
   margin-bottom: 0;
   letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .post-header h1::after {
@@ -448,12 +464,14 @@ h2.section-title {
   font-weight: 700;
   margin: 32px 0 12px;
   letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 .post-content h3 {
   font-size: 15px;
   font-weight: 700;
   margin: 24px 0 10px;
+  color: var(--text-primary);
 }
 
 .post-content p {
@@ -464,8 +482,7 @@ h2.section-title {
   color: var(--blue);
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(37, 99, 235, 0.25);
-  transition: text-decoration-color 0.15s ease;
+  text-decoration-color: rgba(37, 99, 235, 0.3);
 }
 
 .post-content a:hover {
@@ -473,11 +490,11 @@ h2.section-title {
 }
 
 .post-content code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
+  font-family: inherit;
+  font-size: 0.88em;
   background: var(--code-bg);
   border: 1px solid var(--code-border);
-  padding: 2px 5px;
+  padding: 2px 6px;
   border-radius: 4px;
   color: var(--text-primary);
 }
@@ -489,7 +506,6 @@ h2.section-title {
   overflow-x: auto;
   margin: 20px 0;
   border-radius: 6px;
-  font-family: var(--font-mono);
   font-size: 13px;
   line-height: 1.55;
 }
@@ -509,7 +525,8 @@ h2.section-title {
   font-style: italic;
 }
 
-.post-content ul, .post-content ol {
+.post-content ul,
+.post-content ol {
   padding-left: 24px;
   margin-bottom: 16px;
 }
@@ -520,165 +537,94 @@ h2.section-title {
 
 .post-content strong {
   font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* KaTeX */
+/* KaTeX Display */
 .katex-display {
   margin: 24px 0;
   overflow-x: auto;
 }
 
-/* UTIL */
 p.hint {
   font-size: 13px;
   color: var(--text-muted);
   margin-bottom: 16px;
 }
 
-/* FLUID MOBILE SCALING — everything shrinks smoothly with screen width */
+/* Mobile Responsive Layout (Clean, readable, zero bloat) */
 @media (max-width: 680px) {
   body {
-    padding: clamp(16px, 4vw, 24px) clamp(10px, 3vw, 16px) clamp(40px, 8vw, 60px);
-    font-size: clamp(11px, 2.8vw, 12.5px);
-    line-height: 1.55;
+    padding: 32px 18px 64px;
+    font-size: 13.5px;
+    line-height: 1.65;
   }
 
   nav {
-    flex-wrap: wrap;
-    gap: clamp(6px, 1.8vw, 8px) clamp(8px, 2.2vw, 12px);
-    margin-bottom: clamp(18px, 4.5vw, 26px);
-    font-size: clamp(11px, 2.8vw, 12.5px);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    font-size: 13px;
   }
 
   .theme-toggle {
     margin-left: auto;
-    padding: 3px;
-  }
-
-  .theme-toggle svg {
-    width: clamp(11px, 2.8vw, 13px);
-    height: clamp(11px, 2.8vw, 13px);
-  }
-
-  hr {
-    margin: clamp(16px, 4vw, 22px) 0;
+    padding: 4px;
+    flex-shrink: 0;
   }
 
   .hero-name {
-    font-size: clamp(17px, 4.8vw, 21px);
-    letter-spacing: -0.01em;
-  }
-
-  .hero-name::after {
-    width: clamp(20px, 5vw, 28px);
-    height: 2px;
-    margin-top: clamp(8px, 2vw, 10px);
-    margin-bottom: clamp(6px, 1.5vw, 8px);
+    font-size: 22px;
   }
 
   .hero-sub {
-    font-size: clamp(11px, 2.8vw, 12.5px);
-    margin-bottom: clamp(8px, 2vw, 12px);
-  }
-
-  .hero-links {
-    font-size: clamp(10.5px, 2.7vw, 12px);
+    font-size: 13.5px;
   }
 
   h1.page-title {
-    font-size: clamp(16px, 4.5vw, 19px);
+    font-size: 20px;
   }
 
   h1.page-title::after {
-    width: clamp(20px, 5vw, 28px);
-    height: 2px;
-    margin-top: clamp(8px, 2vw, 10px);
-    margin-bottom: clamp(16px, 4vw, 22px);
-  }
-
-  h2.section-title {
-    font-size: clamp(9px, 2.2vw, 10.5px);
-    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 12px);
+    margin-bottom: 20px;
   }
 
   .entry {
     grid-template-columns: 1fr;
-    gap: 2px;
-    padding: clamp(10px, 2.5vw, 13px) 0;
-    font-size: clamp(11px, 2.8vw, 12.5px);
+    gap: 4px;
+    padding: 14px 0;
   }
 
   .entry-time {
-    font-size: clamp(10px, 2.5vw, 11px);
+    font-size: 11.5px;
   }
 
-  .entry-role {
-    font-size: clamp(11.5px, 3vw, 13px);
-  }
-
-  .entry-org {
-    font-size: clamp(10.5px, 2.7vw, 12px);
-  }
-
-  .entry-desc {
-    font-size: clamp(11px, 2.8vw, 12.5px);
+  .project-header {
+    flex-direction: column;
+    gap: 2px;
   }
 
   .project-row {
-    padding: clamp(10px, 2.5vw, 13px) 0;
-  }
-
-  .project-name {
-    font-size: clamp(11.5px, 3vw, 13px);
-  }
-
-  .project-tag {
-    font-size: clamp(9.5px, 2.4vw, 10.5px);
-  }
-
-  .project-desc {
-    font-size: clamp(10.5px, 2.7vw, 12px);
+    padding: 14px 0;
   }
 
   .post-row {
     grid-template-columns: 1fr;
-    gap: 2px;
-    padding: clamp(10px, 2.5vw, 12px) 0;
-    font-size: clamp(11px, 2.8vw, 12.5px);
+    gap: 4px;
+    padding: 14px 0;
   }
 
   .post-date {
-    font-size: clamp(10px, 2.5vw, 11px);
+    font-size: 11.5px;
   }
 
   .post-header h1 {
-    font-size: clamp(16px, 4.5vw, 19px);
-  }
-
-  .post-header h1::after {
-    width: clamp(20px, 5vw, 28px);
-    height: 2px;
-    margin-top: clamp(8px, 2vw, 10px);
-    margin-bottom: clamp(8px, 2vw, 10px);
-  }
-
-  .post-subtitle {
-    font-size: clamp(11.5px, 2.9vw, 13px);
+    font-size: 21px;
   }
 
   .post-content {
-    font-size: clamp(11px, 2.8vw, 12.5px);
-    line-height: 1.55;
-    margin-top: clamp(20px, 5vw, 26px);
-  }
-
-  .post-content h2 {
-    font-size: clamp(13.5px, 3.5vw, 15px);
-    margin: clamp(20px, 5vw, 26px) 0 clamp(8px, 2vw, 10px);
-  }
-
-  .post-content h3 {
-    font-size: clamp(12px, 3vw, 13.5px);
-    margin: clamp(16px, 4vw, 20px) 0 clamp(6px, 1.5vw, 8px);
+    font-size: 14px;
+    line-height: 1.65;
   }
 }
