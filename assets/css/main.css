@@ -42,7 +42,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  /* Only transition background — transitioning color re-rasterizes text glyphs on mobile WebKit */
+  transition: background-color 0.3s ease;
 }
 
 [data-theme="dark"] {
@@ -60,13 +61,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  /* Only transition background — never color, it causes glyph flicker on mobile */
+  transition: background-color 0.3s ease;
 }
 
 a {
   color: var(--blue);
   text-decoration: none;
-  transition: color 0.15s ease, opacity 0.15s ease;
+  transition: opacity 0.15s ease;
 }
 
 a:hover {
@@ -80,38 +82,21 @@ hr {
   transition: border-color 0.25s ease;
 }
 
-/* Containers and borders that transition smoothly with the theme */
+/* Containers: only transition background + border, never text color */
 .entry,
 .project-row,
 .post-row,
 .post-content pre,
 .post-content code {
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Secondary text colors that transition smoothly without rasterization flicker */
-.hero-sub,
-.entry-time,
-.entry-org,
-.entry-desc,
-.project-tag,
-.project-desc,
-.post-date,
-.post-subtitle,
-p.hint {
-  transition: color 0.25s ease;
-}
-
-/* Fast micro-transitions for links */
+/* Fast micro-transitions for links — opacity only, no color transition on mobile */
 .project-name a,
 .post-title a,
 .hero-links a,
 .post-content a {
-  transition:
-    color 0.15s ease,
-    opacity 0.15s ease,
-    border-color 0.15s ease,
-    text-decoration-color 0.15s ease;
+  transition: opacity 0.15s ease, text-decoration-color 0.15s ease;
 }
 
 /* NAV */
@@ -131,7 +116,6 @@ nav .nav-home {
 
 nav a {
   color: var(--text-secondary);
-  transition: color 0.15s ease;
 }
 
 nav a:hover, nav a.active {
@@ -166,9 +150,7 @@ nav a.active::after {
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  transition:
-    color 0.15s ease,
-    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .theme-toggle:hover {
@@ -225,7 +207,6 @@ nav a.active::after {
 
 .hero-links a {
   color: var(--text-secondary);
-  transition: color 0.15s ease;
 }
 
 .hero-links a:hover {
@@ -352,7 +333,6 @@ h2.section-title {
 
 .project-name a {
   color: var(--text-primary);
-  transition: color 0.15s ease;
 }
 
 .project-name a:hover {
@@ -403,7 +383,6 @@ h2.section-title {
 .post-title a {
   color: var(--text-primary);
   font-weight: 600;
-  transition: color 0.15s ease;
 }
 
 .post-title a:hover {
